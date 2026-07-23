@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Robinhood Chain Research & Strategy Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  @page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.5;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Cover Page Styling */
+  .cover-page {
+    page-break-after: always;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #0f172a 100%);
+    color: #ffffff;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-page::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+  }
+
+  .cover-page::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+  }
+
+  .cover-header {
+    z-index: 2;
+  }
+
+  .badge-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #10b981;
+    font-weight: 700;
+    font-size: 8.5pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .cover-title {
+    font-size: 26pt;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    margin: 0 0 15px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .cover-subtitle {
+    font-size: 13pt;
+    font-weight: 400;
+    color: #94a3b8;
+    max-width: 580px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981, #0ea5e9);
+    border-radius: 2px;
+    margin-bottom: 30px;
+  }
+
+  .cover-meta {
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-label {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+
+  /* Main Content Layout */
+  .section {
+    margin-bottom: 28px;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  h1 {
+    font-size: 18pt;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin-top: 25px;
+    margin-bottom: 16px;
+    color: #0b0f19;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h1::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 22px;
+    background: linear-gradient(180deg, #0ea5e9, #10b981);
+    border-radius: 3px;
+  }
+
+  h2 {
+    font-size: 13pt;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    color: #1e293b;
+  }
+
+  h3 {
+    font-size: 10.5pt;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    color: #334155;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #334155;
+    text-align: justify;
+  }
+
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    color: #334155;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  /* Callout Boxes */
+  .callout {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-size: 9pt;
+  }
+
+  .callout-info {
+    background-color: #f0f9ff;
+    border-left: 4px solid #0ea5e9;
+    color: #0369a1;
+  }
+
+  .callout-success {
+    background-color: #ecfdf5;
+    border-left: 4px solid #10b981;
+    color: #047857;
+  }
+
+  .callout-warning {
+    background-color: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    color: #b45309;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 8.5pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    letter-spacing: 0.5px;
+    border-top: 1px solid #cbd5e1;
+    border-bottom: 2px solid #cbd5e1;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  /* Grid Layouts */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+  }
+
+  .card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    page-break-inside: avoid;
+  }
+
+  .card-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .badge-emerald { background: #d1fae5; color: #047857; }
+  .badge-blue { background: #e0f2fe; color: #0369a1; }
+  .badge-purple { background: #f3e8ff; color: #6b21a8; }
+  .badge-amber { background: #fef3c7; color: #b45309; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5pt;
+    background: #f1f5f9;
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: #0f172a;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+  <div class="cover-header">
+    <span class="badge-tag">Robinhood Chain Ecosystem & Strategy Blueprint</span>
+    <h1 class="cover-title">Robinhood Chain Ecosystem,<br>Web3 Social Analysis &<br>Strategic App Blueprint</h1>
+    <div class="cover-divider"></div>
+    <div class="cover-subtitle">
+      A comprehensive deep-dive into Robinhood Chain (Arbitrum Orbit L2), grant & funding opportunities ($1M+ Arbitrum Open House), Web3 Social mechanics comparison, and the cashflow-positive product blueprint for <strong>Funded.Social</strong>.
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="meta-item">
+      <span class="meta-label">Target Chain</span>
+      <span class="meta-value">Robinhood Chain (Arbitrum Orbit L2)</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Primary Objective</span>
+      <span class="meta-value">Grants, User Traction & Real Yield</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Selected Project Concept</span>
+      <span class="meta-value">Funded.Social (Social Copy-Trading)</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Date & Status</span>
+      <span class="meta-value">July 2026 • Mainnet Strategy Report</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="section">
+  <h1>1. Robinhood Chain Deep Research & Technical Foundation</h1>
+  
+  <p>
+    On <strong>July 1, 2026</strong>, Robinhood officially launched the mainnet of <strong>Robinhood Chain</strong>, a permissionless, EVM-compatible Ethereum Layer 2 (L2) blockchain built using <strong>Arbitrum Orbit</strong> technology. Robinhood Chain serves as a direct bridge between Web2 retail investors and decentralized financial primitives.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span>Technical Architecture</span>
+        <span class="badge badge-blue">Orbit Nitro</span>
+      </div>
+      <ul>
+        <li><strong>EVM Compatibility:</strong> Seamless deployment of Solidity/Vyper smart contracts using existing Ethereum developer tooling (Hardhat, Foundry, Viem).</li>
+        <li><strong>Arbitrum Nitro Rollup:</strong> Ultra-fast block confirmation times (&lt;250ms) with low transaction fees (&lt;$0.01).</li>
+        <li><strong>Data Availability & Security:</strong> Ethereum L1 security rollup validation with fallback data availability.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>Strategic Market Positioning</span>
+        <span class="badge badge-emerald">23M+ Users</span>
+      </div>
+      <ul>
+        <li><strong>Retail On-Ramp:</strong> Direct native integration with 23+ million active Robinhood brokerage & Robinhood Wallet accounts.</li>
+        <li><strong>Tokenized RWAs:</strong> Purpose-built for tokenized Real-World Assets (stocks, ETFs, Treasury Bills, US Equities).</li>
+        <li><strong>Prediction Markets:</strong> Integrated event contract trading rails powered by Robinhood Derivatives.</li>
+        <li><strong>AI Agent Native:</strong> Optimized execution endpoints for autonomous AI trading agents.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>Infrastructure Ecosystem Partners:</strong> Robinhood Chain launched with immediate day-one integrations from industry leaders including <strong>Uniswap</strong> (DEX liquidity), <strong>Chainlink & Pyth</strong> (oracles), <strong>LayerZero</strong> (cross-chain interoperability), <strong>Lit Protocol</strong> (threshold cryptography), and <strong>Alchemy</strong> (node RPC infrastructure).
+  </div>
+
+  <h3>Current State of Social dApps on Robinhood Chain</h3>
+  <p>
+    While Robinhood introduced an internal <em>"Robinhood Social"</em> feature within its Web2 brokerage app for trade discussion, <strong>there are currently virtually NO third-party decentralized social dApps natively built on Robinhood Chain</strong>. This early pioneer phase presents a massive, unprecedented <strong>First-Mover Advantage</strong> for developer teams to capture retail user traction.
+  </p>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+  <h1>2. Grants, Funding Campaigns & Builder Incentives</h1>
+  <p>
+    Robinhood and the broader Arbitrum DAO ecosystem have deployed significant capital funds to incentivize developers building on Robinhood Chain:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Grant / Funding Initiative</th>
+        <th>Capital Pool & Support</th>
+        <th>Target Scope & Focus Areas</th>
+        <th>Eligibility & Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Arbitrum Open House Program (Robinhood Pool)</strong></td>
+        <td><strong>$1,000,000 USD</strong></td>
+        <td>Testnet dApps, consumer traction, high-volume DeFi & SocialFi protocols building on Robinhood Chain.</td>
+        <td><span class="badge badge-emerald">Active 2026</span></td>
+      </tr>
+      <tr>
+        <td><strong>Arbitrum Foundation Grants</strong></td>
+        <td>$50,000 – $150,000 per project</td>
+        <td>Impactful EVM dApps, developer tooling, infrastructure, and novel SocialFi mechanisms on Orbit chains.</td>
+        <td><span class="badge badge-blue">Rolling</span></td>
+      </tr>
+      <tr>
+        <td><strong>Arbitrum DAO Questbook Grants</strong></td>
+        <td>$10,000 – $50,000 Domain Grants</td>
+        <td>Gaming, community social interfaces, creator economies, and yield aggregators.</td>
+        <td><span class="badge badge-blue">Quarterly</span></td>
+      </tr>
+      <tr>
+        <td><strong>Gas Fee Sponsorship & Subsidies</strong></td>
+        <td>90-Day Sponsored Gas & ArbiFuel</td>
+        <td>Robinhood covers gas fees for transactions during the initial mainnet onboarding period.</td>
+        <td><span class="badge badge-purple">Automatic</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-success">
+    <strong>Grant Winning Criteria:</strong> To secure top-tier funding from the $1M Arbitrum Open House pool, projects must demonstrate: (1) Direct transaction volume/TVL contribution to Robinhood Chain, (2) User retention mechanics beyond short-term farming, and (3) Integration of Robinhood Chain's native assets (RWAs, tokenized stocks, or prediction contracts).
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 3 -->
+<div class="section">
+  <h1>3. Comprehensive Web3 Social Platforms Deep-Dive</h1>
+
+  <p>
+    To design a sustainable application, we conducted a rigorous comparative analysis of existing Web3 social platforms, analyzing their tokenomics, retention drivers, and monetization failures:
+  </p>
+
+  <div class="card" style="margin-bottom: 14px;">
+    <div class="card-title">
+      <span>1. Friend.tech — Quadratic Key Bonding Curves</span>
+      <span class="badge badge-amber">High Churn</span>
+    </div>
+    <p>
+      <strong>How It Works:</strong> Users buy and sell creator "Keys" on a quadratic bonding curve (Price = Supply² / 16000) to access private group chats.
+    </p>
+    <p>
+      <strong>Monetization & Business Model:</strong> 10% fee on every key buy/sell transaction (5% split to creator, 5% to platform).
+    </p>
+    <p>
+      <strong>Failure Analysis:</strong> Created an unsustainable speculative bubble. When key prices fell, user sentiment reversed sharply, causing a death spiral with no long-term utility or non-financialized content.
+    </p>
+  </div>
+
+  <div class="card" style="margin-bottom: 14px;">
+    <div class="card-title">
+      <span>2. Farcaster / Warpcast — Decentralized Protocol & Interactive "Frames"</span>
+      <span class="badge badge-emerald">High Retention</span>
+    </div>
+    <p>
+      <strong>How It Works:</strong> Off-chain storage hubs paired with on-chain identity (Fid). Developers build interactive mini-apps ("Frames") embedded directly in user social feeds.
+    </p>
+    <p>
+      <strong>Monetization & Business Model:</strong> Annual storage rent (users pay to store posts on hubs), Warps (virtual in-app currency), Frame mint fees, channel subscription passes.
+    </p>
+    <p>
+      <strong>Key Success Factor:</strong> High developer engagement and non-toxic social graph; users engage for genuine discussion rather than financial speculation.
+    </p>
+  </div>
+
+  <div class="card" style="margin-bottom: 14px;">
+    <div class="card-title">
+      <span>3. Lens Protocol / Hey.xyz — Collectible Social Graph NFTs</span>
+      <span class="badge badge-blue">Data Ownership</span>
+    </div>
+    <p>
+      <strong>How It Works:</strong> User profiles, follows, posts, and mirrors are ERC-721 NFTs. Posts can be collected as open or limited edition NFTs.
+    </p>
+    <p>
+      <strong>Monetization & Business Model:</strong> Paid collects (creators set collect fees; platform takes cut), creator subscription modules.
+    </p>
+  </div>
+
+  <h3>Comparative Matrix of Web3 Social Models</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>Core Architecture</th>
+        <th>Monetization Model</th>
+        <th>User Retention</th>
+        <th>Suitability for Robinhood Chain</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Friend.tech</strong></td>
+        <td>Bonding Curve Keys</td>
+        <td>10% Key Trade Fee</td>
+        <td>❌ Very Low (Death Spiral)</td>
+        <td>Poor (Too speculative for retail investors)</td>
+      </tr>
+      <tr>
+        <td><strong>Farcaster</strong></td>
+        <td>Decentralized Hubs + Frames</td>
+        <td>Storage Rent + Warps</td>
+        <td>✅ High (Developer Driven)</td>
+        <td>Excellent (Frames ideal for 1-click trade execution)</td>
+      </tr>
+      <tr>
+        <td><strong>Lens Protocol</strong></td>
+        <td>On-Chain NFT Graph</td>
+        <td>Paid Collects + Subs</td>
+        <td>Moderate</td>
+        <td>Moderate (Requires gas abstraction)</td>
+      </tr>
+      <tr>
+        <td><strong>TipCoin</strong></td>
+        <td>Twitter Bot Tipping</td>
+        <td>Token Tax / Staking</td>
+        <td>❌ Low (Bot Infested)</td>
+        <td>Poor (High sybil attack risk)</td>
+      </tr>
+      <tr>
+        <td><strong>DeSo</strong></td>
+        <td>Custom Social L1</td>
+        <td>Creator Coins & Diamonds</td>
+        <td>Low</td>
+        <td>Poor (Isolated from Arbitrum liquidity)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section">
+  <h1>4. The Strategic Blueprint: Funded.Social on Robinhood Chain</h1>
+
+  <p>
+    Robinhood users are financial investors, prop traders, and event prediction traders. Generic social media will fail. We propose <strong>Funded.Social</strong>: a decentralized social copy-trading platform and verified signal protocol tailored specifically for Robinhood Chain.
+  </p>
+
+  <div class="callout callout-success">
+    <strong>Product Vision:</strong> "Bloomberg Terminal meets Farcaster." Traders post verified trade executions (tokenized stocks, crypto, prediction contracts), while retail followers can 1-click copy trade or deposit into creator Signal Vaults.
+  </div>
+
+  <h3>Core Architecture & Key Features</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span>1. Verified Trade Proofs</span>
+        <span class="badge badge-emerald">Zero Fake Gurus</span>
+      </div>
+      <p>
+        Unlike Twitter/Telegram where gurus post photoshopped profit screenshots, every trade setup on Funded.Social requires on-chain execution proof via Chainlink / Robinhood Chain RPC.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>2. Non-Custodial Copy Vaults</span>
+        <span class="badge badge-blue">Real Yield</span>
+      </div>
+      <p>
+        Top traders launch a non-custodial Smart Vault. Followers deposit USDC/ETH. When the creator trades, the vault auto-executes the trade proportionally for all followers.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>3. Prediction Market Social Feed</span>
+        <span class="badge badge-purple">Robinhood Rails</span>
+      </div>
+      <p>
+        Leverages Robinhood Chain's prediction market contracts. Users share macro/earnings predictions; readers can take the opposite bet directly inside the social post.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>4. Farcaster-Style Trade Frames</span>
+        <span class="badge badge-amber">1-Click Execution</span>
+      </div>
+      <p>
+        Posts render interactive widgets allowing users to <em>"Copy Trade"</em>, <em>"Stake in Vault"</em>, or <em>"View Verified P&L"</em> directly inside the social feed.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section">
+  <h1>5. Sustainable Real-Yield Revenue Model</h1>
+
+  <p>
+    Funded.Social avoids inflationary token emissions by generating <strong>Real Cashflow Yield</strong> directly from economic trading activity on Robinhood Chain:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Revenue Stream</th>
+        <th>Fee Mechanism</th>
+        <th>Platform Cut</th>
+        <th>Value Proposition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Copy-Trade Performance Fee</strong></td>
+        <td>High-water mark performance fee on profitable follower copy-trades (e.g. 20% total profit fee).</td>
+        <td><strong>5% Protocol Fee</strong><br>(15% to Creator)</td>
+        <td>Aligns incentives; creators earn only when followers make real profits.</td>
+      </tr>
+      <tr>
+        <td><strong>Automated Trade Swap Fee</strong></td>
+        <td>Micro-fee applied to automated copy-trade swap volume routed through Robinhood L2 DEX liquidity.</td>
+        <td><strong>0.05% per trade volume</strong></td>
+        <td>Generates high recurring volume revenue as platform TVL grows.</td>
+      </tr>
+      <tr>
+        <td><strong>Gated Premium Signal Subs</strong></td>
+        <td>Monthly subscription fee charged by top traders for private research & real-time alerts (e.g. $50/mo).</td>
+        <td><strong>10% Protocol Cut</strong></td>
+        <td>Predictable monthly SaaS revenue stream.</td>
+      </tr>
+      <tr>
+        <td><strong>Prop Firm Affiliate Directory</strong></td>
+        <td>Integrated evaluation directory (FTMO, FundedNext, Funding Pips) with discount promo codes.</td>
+        <td><strong>15% – 30% Affiliate Commission</strong></td>
+        <td>Immediate zero-cost cashflow bootstrap for the platform.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section">
+  <h1>6. Implementation Roadmap & Grant Execution Playbook</h1>
+
+  <div class="card" style="margin-bottom: 12px;">
+    <div class="card-title">
+      <span>Phase 1: MVP Build & Grant Submission (Month 1 - 2)</span>
+      <span class="badge badge-emerald">Milestone 1</span>
+    </div>
+    <ul>
+      <li>Complete Next.js 14 frontend build with Tailwind CSS, Prisma SQLite database, and Viem/Wagmi RPC connections to Robinhood Chain testnet.</li>
+      <li>Submit official grant proposal to the <strong>$1,000,000 Arbitrum Open House Program</strong> & Arbitrum DAO Questbook.</li>
+      <li>Deploy core Signal Vault smart contracts audited by open-source Arbitrum audit subsidies.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom: 12px;">
+    <div class="card-title">
+      <span>Phase 2: Creator Onboarding & Alpha Launch (Month 3 - 4)</span>
+      <span class="badge badge-blue">Milestone 2</span>
+    </div>
+    <ul>
+      <li>Onboard top 50 FinTwit, prop trading, and crypto traders with 0% protocol fee incentives for life.</li>
+      <li>Launch gasless copy-trading using Robinhood Chain's 90-day sponsored gas infrastructure.</li>
+      <li>Release interactive Farcaster Frames for cross-platform sharing on Warpcast & X/Twitter.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span>Phase 3: Scale & Revenue Distribution (Month 5+)</span>
+      <span class="badge badge-purple">Milestone 3</span>
+    </div>
+    <ul>
+      <li>Activate automated performance fee distributions and swap revenue buybacks.</li>
+      <li>Expand to tokenized stock index copy-trading and prediction contract copy vaults.</li>
+      <li>Target mainnet Robinhood Wallet dApp store featuring.</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

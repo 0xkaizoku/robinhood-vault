@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-dark: #07090e;
+  --bg-panel: #0d111a;
+  --bg-card: #121826;
+  --bg-card-hover: #172033;
+  --bg-subtle: rgba(255, 255, 255, 0.03);
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(0, 230, 118, 0.4);
+  
+  --green: #00e676;
+  --green-glow: rgba(0, 230, 118, 0.2);
+  --blue: #29b6f6;
+  --purple: #ab47bc;
+  --amber: #ffa726;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header Navbar */
+.app-header {
+  height: 64px;
+  background: rgba(7, 9, 14, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 1.15rem;
+  min-width: 260px;
+}
+
+.brand-badge {
+  background: rgba(0, 230, 118, 0.12);
+  color: var(--green);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Tab Navigation Strip */
+.tab-nav {
+  display: flex;
+  gap: 2px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 18px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+/* Modern SVG Icon Styling */
+.icon-svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Top Metrics Ticker Bar */
+.metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.metric-cell {
+  background: var(--bg-panel);
+  padding: 16px 20px;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.metric-val {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+/* Data Table */
+.data-table-wrap {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.data-table th {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tbody tr:hover {
+  background: var(--bg-subtle);
+}
+
+/* Buttons */
+.btn-action {
+  background: var(--green);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-action:hover {
+  box-shadow: 0 0 16px var(--green-glow);
+  transform: translateY(-1px);
+}
+
+/* Fixed-width Connect Button to Prevent Shaking / Layout Shifts */
+.btn-connect {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  min-width: 250px; /* Prevents header shaking */
+  white-space: nowrap;
+}
+
+.btn-connect:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* Tabs Animation */
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}

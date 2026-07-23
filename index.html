@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robinhood Chain — Morpho Yield Analytics & Risk Radar</title>
+  <link rel="stylesheet" href="./src/styles/app.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-logo">
+        <svg class="icon-svg" style="width: 22px; height: 22px; color: var(--green);" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span>MORPHO // ROBINHOOD ANALYTICS</span>
+        <span class="brand-badge">READ-ONLY // 100% SAFE</span>
+      </div>
+
+      <!-- Navigation Bar -->
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="markets">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          Morpho Markets
+        </button>
+        <button class="tab-btn" data-tab="strategies">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Yield Strategies
+        </button>
+        <button class="tab-btn" data-tab="activity">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Live Activity Stream
+        </button>
+        <button class="tab-btn" data-tab="calculator">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          Yield Calculator
+        </button>
+      </nav>
+
+      <div>
+        <span class="btn-connect" style="cursor: default; border-color: rgba(0,230,118,0.3); color: var(--green);">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block;"></span>
+          Robinhood Chain (Chain 4663)
+        </span>
+      </div>
+    </header>
+
+    <main style="max-width: 1340px; margin: 0 auto; padding: 28px 24px;">
+
+      <!-- Metric Ticker Bar -->
+      <div class="metrics-bar">
+        <div class="metric-cell">
+          <div class="metric-label">Total Value Locked</div>
+          <div class="metric-val" style="color: var(--green);">$49,100,000</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">24h Protocol Volume</div>
+          <div class="metric-val">$3,840,290</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Active On-Chain Markets</div>
+          <div class="metric-val">1,462</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Max Treasury APY</div>
+          <div class="metric-val" style="color: var(--blue);">18.50%</div>
+        </div>
+      </div>
+
+      <!-- TAB 1: MORPHO MARKETS ANALYTICS -->
+      <div id="tab-markets" class="tab-pane active">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">Morpho Blue Core Market Intelligence</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Read-only analytics on isolated lending pools & collateralization thresholds</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Market Name</th>
+                <th>Loan Asset</th>
+                <th>Collateral Asset</th>
+                <th>LLTV Ratio</th>
+                <th>Supply APY</th>
+                <th>Borrow APY</th>
+                <th>TVL</th>
+                <th>Risk Rating</th>
+                <th style="text-align: right;">Official Link</th>
+              </tr>
+            </thead>
+            <tbody id="marketsTableBody">
+              <!-- Market Rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 2: YIELD STRATEGIES ANALYTICS -->
+      <div id="tab-strategies" class="tab-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">Automated Strategy Vault Analytics</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Performance tracking for Morpho strategies on Robinhood Chain</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Strategy Name</th>
+                <th>Category</th>
+                <th>Underlying Assets</th>
+                <th>Risk Score</th>
+                <th>TVL</th>
+                <th>Target APY</th>
+                <th style="text-align: right;">Official Link</th>
+              </tr>
+            </thead>
+            <tbody id="strategiesTableBody">
+              <!-- Strategy Rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: LIVE ACTIVITY STREAM -->
+      <div id="tab-activity" class="tab-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">On-Chain Activity Feed</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Real-time RPC block stream on Robinhood Chain (Chain ID 4663)</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Vault / Market</th>
+                <th>Tokens</th>
+                <th>Amount (USD)</th>
+                <th>Account</th>
+                <th>Time</th>
+                <th style="text-align: right;">Block Explorer</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <!-- Activity Stream Rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 4: YIELD CALCULATOR -->
+      <div id="tab-calculator" class="tab-pane">
+        <div class="data-table-wrap" style="padding: 24px; max-width: 600px; margin: 0 auto;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">🧮 Yield Return Projection Engine</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Calculate estimated compound interest returns safely</p>
+          
+          <div style="margin-bottom: 16px;">
+            <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 6px;">Deposit Amount ($ USDC)</label>
+            <input type="number" id="calcAmount" value="5000" style="width: 100%; padding: 12px; border-radius: 6px; background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 1rem;" />
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 6px;">Lock Duration (Months)</label>
+            <select id="calcDuration" style="width: 100%; padding: 12px; border-radius: 6px; background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 1rem;">
+              <option value="3">3 Months</option>
+              <option value="6">6 Months</option>
+              <option value="12" selected>12 Months</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 6px;">Select Vault Strategy</label>
+            <select id="calcApy" style="width: 100%; padding: 12px; border-radius: 6px; background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 1rem;">
+              <option value="5.85">5.85% — RWA Delta-Neutral Treasury Carry</option>
+              <option value="12.40">12.40% — Morpho ETH 3.2x Staking Loop</option>
+              <option value="16.20">16.20% — Stock Covered Call Vault</option>
+              <option value="18.50">18.50% — Arbitrum Gas Subsidy Booster</option>
+            </select>
+          </div>
+
+          <div style="background: rgba(0,230,118,0.1); border: 1px solid var(--border-active); padding: 16px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Est. Projected Earned Interest</div>
+            <div id="calcResult" style="font-size: 1.6rem; font-weight: 800; font-family: var(--font-mono); color: var(--green); margin-top: 4px;">$292.50</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
