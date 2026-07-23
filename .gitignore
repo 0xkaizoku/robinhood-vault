@@ -1,3 +1,8 @@
 node_modules/
 dist/
 .vercel/
+
+# Spec Kit & Local Agent Tooling (Kept locally, excluded from GitHub)
+.agents/
+.specify/
+specs/
